@@ -35,7 +35,14 @@ public class ManagerService {
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new InvalidRequestException("Todo not found"));
 
-        if (!ObjectUtils.nullSafeEquals(user.getId(), todo.getUser().getId())) {
+        /*
+        투두.getUser() 값이 null 이었기 때문에 null 값에 getId()가 접근했기 때문에 NPE 가 떴던 것.
+        투두의 유저가 null 값일 때 || 1번 값이랑 2번 값이랑 비교 :
+            → 둘다 null -> true 반환
+            → 둘 중 하나만 null -> false 반환
+            → 둘 다 null 이 아니면 -> equals 로 비교
+         */
+        if (todo.getUser() == null || !ObjectUtils.nullSafeEquals(user.getId(), todo.getUser().getId())) {
             throw new InvalidRequestException("담당자를 등록하려고 하는 유저가 일정을 만든 유저가 유효하지 않습니다.");
         }
 
