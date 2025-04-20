@@ -57,6 +57,13 @@ class ManagerServiceTest {
         long managerUserId = 2L;
 
         Todo todo = new Todo();
+        /* 강제 주입
+        ReflectionTestUtils.setField(
+        Object target,     // 값을 넣을 객체
+        String name,       // 필드 이름 (private도 OK)
+        Object value       // 설정할 값
+        );
+         */
         ReflectionTestUtils.setField(todo, "user", null);
 
         ManagerSaveRequest managerSaveRequest = new ManagerSaveRequest(managerUserId);
@@ -65,7 +72,7 @@ class ManagerServiceTest {
 
         // when & then
         InvalidRequestException exception = assertThrows(InvalidRequestException.class, () ->
-            managerService.saveManager(authUser, todoId, managerSaveRequest)
+                managerService.saveManager(authUser, todoId, managerSaveRequest)
         );
 
         assertEquals("담당자를 등록하려고 하는 유저가 일정을 만든 유저가 유효하지 않습니다.", exception.getMessage());
@@ -94,7 +101,8 @@ class ManagerServiceTest {
         assertEquals(mockManager.getUser().getEmail(), managerResponses.get(0).getUser().getEmail());
     }
 
-    @Test // 테스트코드 샘플
+    @Test
+        // 테스트코드 샘플
     void todo가_정상적으로_등록된다() {
         // given
         AuthUser authUser = new AuthUser(1L, "a@a.com", UserRole.USER);
