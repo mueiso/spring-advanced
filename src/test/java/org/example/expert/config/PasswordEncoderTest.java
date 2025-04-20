@@ -3,6 +3,7 @@ package org.example.expert.config;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,6 +22,7 @@ class PasswordEncoderTest {
 
         // when
         boolean matches = passwordEncoder.matches(encodedPassword, rawPassword);
+        // rawPassword, encodedPassword 파라미터 순서 바뀐 것 수정
 
         // then
         assertTrue(matches);
